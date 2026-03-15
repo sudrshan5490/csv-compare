@@ -20,7 +20,7 @@ namespace CsvCompare.Tests
             };
 
             var comparer = new CsvComparer(options);
-            var result = comparer.Compare(Reader(expected), Reader(actual), new List<string> { "A" });
+            var result = comparer.Compare(Reader(expected), Reader(actual), ["A"]);
 
             Assert.AreEqual(0, result.MissingInActual.Count);
             Assert.AreEqual(0, result.ExtraInActual.Count);
@@ -35,25 +35,25 @@ namespace CsvCompare.Tests
             // Throw policy
             var optionsThrow = new CsvComparerOptions { DuplicateKeyPolicy = DuplicateKeyPolicy.Throw };
             var comparerThrow = new CsvComparer(optionsThrow);
-            Assert.Throws<InvalidDataException>(() => comparerThrow.Compare(Reader(expected), Reader(actual), new List<string> { "Id" }));
+            Assert.Throws<InvalidDataException>(() => comparerThrow.Compare(Reader(expected), Reader(actual), ["Id"]));
 
             // UseFirst policy: first occurrence should be kept
             var optionsUseFirst = new CsvComparerOptions { DuplicateKeyPolicy = DuplicateKeyPolicy.UseFirst };
             var comparerUseFirst = new CsvComparer(optionsUseFirst);
-            var resUseFirst = comparerUseFirst.Compare(Reader(expected), Reader(actual), new List<string> { "Id" });
+            var resUseFirst = comparerUseFirst.Compare(Reader(expected), Reader(actual), ["Id"]);
             // actual contains Id=1 so no missing keys
             Assert.AreEqual(0, resUseFirst.MissingInActual.Count);
 
             // UseLast policy: last occurrence should be kept (no exception)
             var optionsUseLast = new CsvComparerOptions { DuplicateKeyPolicy = DuplicateKeyPolicy.UseLast };
             var comparerUseLast = new CsvComparer(optionsUseLast);
-            var resUseLast = comparerUseLast.Compare(Reader(expected), Reader(actual), new List<string> { "Id" });
+            var resUseLast = comparerUseLast.Compare(Reader(expected), Reader(actual), ["Id"]);
             Assert.AreEqual(0, resUseLast.MissingInActual.Count);
 
             // Aggregate policy currently behaves like UseLast in this implementation (no exception)
             var optionsAgg = new CsvComparerOptions { DuplicateKeyPolicy = DuplicateKeyPolicy.Aggregate };
             var comparerAgg = new CsvComparer(optionsAgg);
-            var resAgg = comparerAgg.Compare(Reader(expected), Reader(actual), new List<string> { "Id" });
+            var resAgg = comparerAgg.Compare(Reader(expected), Reader(actual), ["Id"]);
             Assert.AreEqual(0, resAgg.MissingInActual.Count);
         }
 
@@ -65,7 +65,7 @@ namespace CsvCompare.Tests
 
             var options = new CsvComparerOptions { Mode = ComparisonMode.StreamExpected };
             var comparer = new CsvComparer(options);
-            var result = comparer.Compare(Reader(expected), Reader(actual), new List<string> { "Id" });
+            var result = comparer.Compare(Reader(expected), Reader(actual), ["Id"]);
 
             Assert.AreEqual(1, result.MissingInActual.Count); // Id=1 missing
             Assert.AreEqual(1, result.ExtraInActual.Count);   // Id=4 extra
@@ -88,7 +88,7 @@ namespace CsvCompare.Tests
 
             var options = new CsvComparerOptions { Mode = ComparisonMode.Bucketed, BucketCount = 8 };
             var comparer = new CsvComparer(options);
-            var result = comparer.Compare(Reader(sbExp.ToString()), Reader(sbAct.ToString()), new List<string> { "Id" });
+            var result = comparer.Compare(Reader(sbExp.ToString()), Reader(sbAct.ToString()), ["Id"]);
 
             Assert.Greater(result.MissingInActual.Count, 0);
         }
@@ -102,7 +102,7 @@ namespace CsvCompare.Tests
             var options = new CsvComparerOptions { NumericTolerance = 0.0001 };
             options.PerFieldNumericTolerance["ValB"] = 0.2; // ValB tolerant
             var comparer = new CsvComparer(options);
-            var result = comparer.Compare(Reader(expected), Reader(actual), new List<string> { "Id" });
+            var result = comparer.Compare(Reader(expected), Reader(actual), ["Id"]);
 
             // ValA difference 0.0005 > global tol -> mismatch; ValB within per-field tol -> ok
             Assert.AreEqual(1, result.FieldLevelMismatches.Count);
@@ -117,7 +117,7 @@ namespace CsvCompare.Tests
 
             var options = new CsvComparerOptions { NormalizeKeyCase = true };
             var comparer = new CsvComparer(options);
-            var result = comparer.Compare(Reader(expected), Reader(actual), new List<string> { "Id" });
+            var result = comparer.Compare(Reader(expected), Reader(actual), ["Id"]);
 
             Assert.AreEqual(0, result.MissingInActual.Count);
             Assert.AreEqual(0, result.ExtraInActual.Count);
@@ -131,7 +131,7 @@ namespace CsvCompare.Tests
 
             var options = new CsvComparerOptions();
             var comparer = new CsvComparer(options);
-            var result = comparer.Compare(Reader(expected), Reader(actual), new List<string> { "Id" });
+            var result = comparer.Compare(Reader(expected), Reader(actual), ["Id"]);
 
             Assert.AreEqual(1, result.FieldLevelMismatches.Count);
             var fm = result.FieldLevelMismatches[0].FieldMismatches[0];
