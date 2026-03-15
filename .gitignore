@@ -1,0 +1,9 @@
+*.vsidx
+*.manifest
+*.testlog
+.vs/CsvCompare.slnx/v18/DocumentLayout.json
+.vs/CsvCompare.slnx/v18/.suo
+/CsvCompare/obj
+/CsvCompare.Tests/obj
+/.vs
+/CsvCompare.Tests/bin

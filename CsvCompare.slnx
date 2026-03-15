@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CsvCompare.Tests/CsvCompare.Tests.csproj" />
+  <Project Path="CsvCompare/CsvCompare.csproj" />
+</Solution>
