@@ -5,6 +5,21 @@
         public string FieldName { get; set; }
         public string ExpectedValue { get; set; }
         public string ActualValue { get; set; }
+
+        /// <summary>
+        /// Scope of mismatch (e.g., FIELD, RECORD). Default FIELD.
+        /// </summary>
+        public string Scope { get; set; } = "FIELD";
+
+        /// <summary>
+        /// Key column names for the record where mismatch occurred.
+        /// </summary>
+        public List<string> KeyColumns { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Corresponding key values (same order as KeyColumns).
+        /// </summary>
+        public List<string> KeyValues { get; set; } = new List<string>();
     }
 
     public class RecordMismatch

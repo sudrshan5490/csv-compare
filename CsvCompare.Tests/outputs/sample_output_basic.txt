@@ -1,8 +1,0 @@
-﻿Comparison Summary:
-Missing in Actual: 1
-  MISSING: 1||Alice||10
-Extra in Actual: 1
-  EXTRA: 4||David||40
-Field-level mismatches: 1
-Record Key: 3
- Failed Fieldname: Value | Expected Input Value: "30" | Actual Value: "30.0001" | for record having unique field Key: 3
